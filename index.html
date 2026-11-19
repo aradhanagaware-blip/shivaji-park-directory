@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#17243b">
+<title>Chapter Members Directory — Prototype</title>
+<style>
+:root{--navy:#17243b;--navy2:#263750;--gold:#d8b66a;--bg:#f3f5f8;--ink:#202b3b;--muted:#6b7788;--line:#e4e8ee;--white:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+header{background:linear-gradient(135deg,var(--navy),var(--navy2));color:white;padding:24px 18px 20px}
+.wrap{max-width:1050px;margin:auto}.top{display:flex;align-items:center;gap:14px}.crest{width:52px;height:52px;border:1px solid #65738a;border-radius:14px;display:grid;place-items:center;color:var(--gold);font-size:25px}
+h1{font-size:clamp(19px,4vw,27px);line-height:1.2;margin:0}.sub{color:#c7d0dc;font-size:12px;letter-spacing:1.5px;margin-top:5px}
+.hero{margin-top:22px;display:flex;align-items:end;justify-content:space-between;gap:12px;flex-wrap:wrap}.hero p{margin:0;color:#e0e6ee}.count{background:#31445f;border:1px solid #53647d;border-radius:999px;padding:6px 12px;font-size:12px}
+main{max-width:1050px;margin:22px auto;padding:0 16px 40px}.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}.search{flex:1;min-width:210px;border:1px solid var(--line);border-radius:12px;padding:12px 14px;font:inherit;background:white}.filter,.adminbtn{border:1px solid var(--line);background:white;border-radius:12px;padding:11px 13px;font:inherit;color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}.card{background:white;border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:0 3px 12px #1c2b4210;display:flex;flex-direction:column;min-height:205px}
+.person{display:flex;gap:12px;align-items:center}.avatar{width:48px;height:48px;flex:none;border-radius:50%;display:grid;place-items:center;background:#e8edf4;color:var(--navy);font-weight:700;font-size:17px}.name{font-weight:700;font-size:16px}.company{color:var(--muted);font-size:13px}.tag{display:inline-block;background:#f0f3f7;color:#43536a;border-radius:7px;padding:4px 8px;font-size:11px;margin-top:12px;align-self:flex-start}
+.card p{color:#536174;font-size:13px;margin:10px 0 14px}.actions{display:flex;gap:8px;margin-top:auto}.actions a,.view{flex:1;text-align:center;text-decoration:none;border-radius:9px;padding:9px 8px;font-size:13px;font-weight:600}.call{background:#edf3fa;color:#203957}.wa{background:#e9f7ef;color:#167343}.view{background:var(--navy);color:white;border:0;cursor:pointer}
+.note{color:var(--muted);font-size:12px;margin:16px 2px}.empty{background:white;padding:25px;border-radius:14px;color:var(--muted);text-align:center}
+.modal{display:none;position:fixed;inset:0;background:#101a2bcc;z-index:5;padding:16px;overflow:auto}.modal.show{display:grid;place-items:center}.panel{background:white;border-radius:18px;max-width:560px;width:100%;padding:22px;max-height:90vh;overflow:auto}.panel h2{margin:0 0 4px}.panel .muted{color:var(--muted);font-size:13px}.field{margin-top:15px}.field b{font-size:11px;letter-spacing:.7px;color:#68768a;text-transform:uppercase}.field p{margin:4px 0 0;white-space:pre-wrap}.close{float:right;border:0;background:#eef1f5;border-radius:8px;padding:7px 10px;cursor:pointer}
+footer{text-align:center;color:#7b8797;font-size:11px;padding:16px}
+@media(max-width:520px){header{padding:19px 15px}.crest{width:45px;height:45px}main{margin-top:16px}.toolbar>*{width:100%}.card{min-height:0}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+ <div class="top"><div class="crest">✦</div><div><h1>Chatrapati Shivaji Maharaj Park Chapter</h1><div class="sub">MEMBERS BUSINESS DIRECTORY · PROTOTYPE</div></div></div>
+ <div class="hero"><p>Connect with chapter members and their businesses.</p><span class="count" id="count">5 sample profiles</span></div>
+</div></header>
+<main>
+ <div class="toolbar">
+  <input id="search" class="search" placeholder="Search member, company or business category…" aria-label="Search directory">
+  <select id="category" class="filter" aria-label="Filter by category"><option value="">All business categories</option></select>
+ </div>
+ <section id="grid" class="grid"></section>
+ <p class="note">Prototype populated with 5 sample records from the supplied member PDF. Birthdates are intentionally excluded. Contact details should be published only with each member’s consent.</p>
+</main>
+<div class="modal" id="modal" role="dialog" aria-modal="true"><div class="panel"><button class="close" onclick="closeModal()">Close ✕</button><div id="details"></div></div></div>
+<footer>Offline-ready directory concept · No domain or hosting required for this prototype</footer>
+<script>
+const members = [{"name": "Priyanka Devkar (Dr.)", "company": "Dr. PD's Dental Studio", "category": "Dental clinic", "phone": "8928301312", "email": "", "tagline": "Making people smile every single day", "business": "Dental treatment, dental implants, dentures, smile makeovers, smile designing and braces.", "referrals": "People who need dental treatment, dental implants or dentures, smile makeovers, smile designing and braces."}, {"name": "Anagha Amol Sawaratkar", "company": "Bubbles Organic Handmade Soaps", "category": "Handmade soaps and personal care", "phone": "7302572257", "email": "", "tagline": "Zero chemical, only nature", "business": "SLS- and paraben-free handmade soaps, shampoo and conditioner.", "referrals": "Resorts looking for mini kits and corporates looking for gifting combinations."}, {"name": "Sagar Pandurang Dhole", "company": "Avera Global Trade", "category": "Import–Export", "phone": "8591225353", "email": "", "tagline": "Connecting Indian products to the global market", "business": "Import and export services.", "referrals": "Suppliers of agricultural products and dehydrated products; importers, buyers and distributors."}, {"name": "Pradnya Chavan", "company": "Havmore Insurance Brokers Pvt Ltd", "category": "Insurance", "phone": "8928911430", "email": "", "tagline": "Insurance More with Havmore", "business": "All types of insurance.", "referrals": "Private companies with a minimum of 7 employees."}, {"name": "Aradhana Abhijit Gaware", "company": "AP Financial Services", "category": "Strategic finance, accounting, taxation and compliance", "phone": "9870109762", "email": "apfinancialservices2012@gmail.com", "tagline": "Beyond Compliance. Towards Business Growth.", "business": "Strategic finance, accounting, taxation, governance, compliance and business advisory services.", "referrals": "Business owners and corporates seeking strategic finance consulting, virtual CFO services, payroll operations, inventory management, accounting, taxation, governance and compliance."}];
+const grid=document.getElementById('grid'), search=document.getElementById('search'), category=document.getElementById('category');
+const initials=n=>n.replace(/\(.*?\)/g,'').trim().split(/\s+/).slice(0,2).map(x=>x[0]).join('').toUpperCase();
+const esc=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+[...new Set(members.map(m=>m.category))].sort().forEach(c=>{let o=document.createElement('option');o.value=c;o.textContent=c;category.append(o)});
+function render(){let q=search.value.toLowerCase(),cat=category.value;let list=members.filter(m=>(!cat||m.category===cat)&&[m.name,m.company,m.category,m.business,m.referrals].join(' ').toLowerCase().includes(q)).sort((a,b)=>a.name.localeCompare(b.name));document.getElementById('count').textContent=list.length+' of '+members.length+' sample profiles';grid.innerHTML=list.length?list.map(m=>`<article class="card"><div class="person"><div class="avatar">${esc(initials(m.name))}</div><div><div class="name">${esc(m.name)}</div><div class="company">${esc(m.company)}</div></div></div><span class="tag">${esc(m.category)}</span><p>${esc(m.tagline)}</p><div class="actions"><a class="call" href="tel:${esc(m.phone)}">Call</a><a class="wa" target="_blank" rel="noopener" href="https://wa.me/91${esc(m.phone)}">WhatsApp</a><button class="view" onclick="showProfile(${members.indexOf(m)})">Profile</button></div></article>`).join(''):'<div class="empty">No matching members found.</div>'}
+function showProfile(i){let m=members[i];document.getElementById('details').innerHTML=`<div class="avatar" style="margin-bottom:12px">${esc(initials(m.name))}</div><h2>${esc(m.name)}</h2><div class="muted">${esc(m.company)} · ${esc(m.category)}</div><div class="field"><b>Business</b><p>${esc(m.business)}</p></div><div class="field"><b>Tagline</b><p>${esc(m.tagline)}</p></div><div class="field"><b>Referral requirements</b><p>${esc(m.referrals)}</p></div><div class="field"><b>Contact</b><p>${esc(m.phone)}${m.email?'<br>'+esc(m.email):''}</p></div><div class="actions" style="margin-top:18px"><a class="call" href="tel:${esc(m.phone)}">Call member</a><a class="wa" href="https://wa.me/91${esc(m.phone)}">WhatsApp</a>${m.email?`<a class="view" href="mailto:${esc(m.email)}">Email</a>`:''}</div>`;document.getElementById('modal').classList.add('show')}
+function closeModal(){document.getElementById('modal').classList.remove('show')}
+search.addEventListener('input',render);category.addEventListener('change',render);document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});render();
+</script>
+</body></html>
